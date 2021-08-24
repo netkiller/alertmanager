@@ -3,7 +3,7 @@
 
 	<groupId>cn.netkiller</groupId>
 	<artifactId>alertmanager</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>alertmanager</name>
@@ -63,23 +63,46 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<!-- <version>3.8.1</version> -->
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>cn.netkiller.Application</mainClass>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>1.2.2</version>
+				<configuration>
+					<baseImage>openjdk</baseImage>
+					<imageName>netkiller/${project.artifactId}:${project.version}</imageName>
+					<imageTags>
+						<imageTag>${project.version}</imageTag>
+						<imageTag>latest</imageTag>
+					</imageTags>
+					<maintainer>${docker.maintainer}</maintainer>
+					<volumes>/tmp</volumes>
+					<workdir>/app/</workdir>
+					<!-- <cmd>["java", "-version"]</cmd> -->
+					<entryPoint>["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/${project.build.finalName}.jar"]</entryPoint>
+					<pushImage>false</pushImage>
+					<resources>
+						<resource>
+							<targetPath>/app</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
 				</configuration>
 			</plugin>
 		</plugins>

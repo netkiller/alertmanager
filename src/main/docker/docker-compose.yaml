@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  alertmanager-webhook:
+    image: netkiller/alertmanager
+    container_name: alertmanager-webhook
+    restart: always
+    hostname: alertmanager.netkiller.cn
+    extra_hosts:
+      - dysmsapi.aliyuncs.com:106.11.45.35
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_OPTS: -Xms256m -Xmx1024m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=512m
+    ports:
+      - 8080:8080
+    volumes:
+      - /tmp/alertmanager:/tmp
+    working_dir: /app
+    command:
+      #--spring.config.location=/opt/config/application.properties
+      --server.port=8080
+      --spring.profiles.active=default
+      --logging.file.name=/tmp/spring.log
