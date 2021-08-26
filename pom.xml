@@ -70,7 +70,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>cn.netkiller.Application</mainClass>
+					<mainClass>cn.netkiller.alertmanager.Application</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 public class Application {
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
+		System.out.println("Alertmanager Webhook...");
 		SpringApplication.run(Application.class, args);
 	}
 }
