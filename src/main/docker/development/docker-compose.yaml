@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  api:
+    image: openjdk:17
+    container_name: api
+    restart: always
+    hostname: api.netkiller.cn
+    extra_hosts:
+      - dysmsapi.aliyuncs.com:106.11.45.35
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_OPTS: -Xms256m -Xmx1024m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=512m
+    ports:
+      - 8088:8080
+    volumes:
+      - /opt/netkiller.cn/api.netkiller.cn:/app
+      - /opt/netkiller.cn/api.netkiller.cn/logs:/app/logs
+    working_dir: /app
+    entrypoint: java -jar /app/alertmanager-0.0.1.jar
+    command:
+      --spring.profiles.active=default
+      --server.port=8080
+      --logging.file.name=/app/logs/spring.log
+
